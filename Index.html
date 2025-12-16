@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Glitch Bunny - Personal CV Portfolio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -11,6 +11,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         :root {
@@ -28,6 +29,8 @@
             --spacing-xl: 8rem;
             --border-radius: 1px;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --mobile-breakpoint: 768px;
+            --tablet-breakpoint: 1024px;
         }
         
         body {
@@ -37,47 +40,166 @@
             line-height: 1.6;
             font-weight: 400;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 var(--spacing-md);
+            width: 100%;
         }
 
-        /* Navigation */
+        /* Navigation - Enhanced for Mobile */
         .navbar {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             z-index: 1000;
             padding: var(--spacing-sm) 0;
             border-bottom: 1px solid var(--medium-gray);
+            height: 60px;
+            display: flex;
+            align-items: center;
         }
 
         .navbar-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            width: 100%;
         }
 
         .navbar-logo {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             font-weight: 800;
             color: var(--primary-black);
             text-decoration: none;
             display: flex;
             align-items: center;
             gap: var(--spacing-xs);
+            z-index: 1001;
+        }
+
+        .navbar-logo img {
+            height: 32px;
+            width: auto;
+        }
+
+        .navbar-logo span {
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            .navbar-logo span {
+                display: inline;
+            }
+        }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            z-index: 1001;
+            padding: 8px;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .menu-toggle:hover {
+            background-color: var(--light-gray);
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--primary-black);
+            margin: 4px 0;
+            transition: var(--transition);
+            transform-origin: center;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
         }
 
         .navbar-menu {
             display: flex;
             list-style: none;
             gap: var(--spacing-md);
+            align-items: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        @media (max-width: 768px) {
+            .navbar-menu {
+                position: fixed;
+                top: 60px;
+                left: 0;
+                right: 0;
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: var(--spacing-lg);
+                transform: translateY(-100%);
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                border-top: 1px solid var(--medium-gray);
+                gap: 0;
+                z-index: 1000;
+            }
+
+            .navbar-menu.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .navbar-menu li {
+                width: 100%;
+                text-align: center;
+            }
+
+            .navbar-link {
+                display: block;
+                width: 100%;
+                padding: var(--spacing-md) var(--spacing-sm);
+                border-radius: var(--border-radius);
+                transition: var(--transition);
+                font-size: 1.1rem;
+            }
+
+            .navbar-link:hover {
+                background-color: var(--light-gray);
+            }
         }
 
         .navbar-link {
@@ -88,20 +210,27 @@
             padding: var(--spacing-xs) var(--spacing-sm);
             border-radius: var(--border-radius);
             transition: var(--transition);
+            white-space: nowrap;
         }
 
         .navbar-link:hover {
             background-color: var(--light-gray);
         }
 
-        /* Hero Scroll Section */
+        /* Hero Scroll Section - Mobile Optimized */
         .hero-scroll-section {
-            
             min-height: 100vh;
             display: flex;
+            flex-direction: column;
             position: relative;
             margin-top: 60px;
             overflow: hidden;
+        }
+
+        @media (min-width: 1024px) {
+            .hero-scroll-section {
+                flex-direction: row;
+            }
         }
 
         .projects-list {
@@ -111,11 +240,42 @@
             bottom: 0;
             width: 300px;
             background: rgba(255, 255, 255, 0.0);
-            /* backdrop-filter: blur(10px); */
-            /* border-right: 1px solid rgba(224, 224, 224, 0.5); */
             padding: var(--spacing-lg) var(--spacing-md);
             overflow-y: auto;
             z-index: 900;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        @media (max-width: 1024px) {
+            .projects-list {
+                width: 250px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .projects-list {
+                position: static;
+                width: 100%;
+                height: auto;
+                max-height: none;
+                padding: var(--spacing-md);
+                background: rgba(255, 255, 255, 0.9);
+                border-bottom: 1px solid var(--medium-gray);
+                overflow-x: auto;
+                overflow-y: hidden;
+                display: flex;
+                gap: var(--spacing-sm);
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .project-nav-item {
+                flex: 0 0 auto;
+                width: 200px;
+                scroll-snap-align: start;
+                margin-bottom: 0;
+                white-space: nowrap;
+            }
         }
 
         .project-nav-item {
@@ -125,22 +285,26 @@
             cursor: pointer;
             transition: var(--transition);
             border-left: 3px solid transparent;
-            background: rgba(255, 255, 255, 0.5); /* Semi-transparent background */
+            background: rgba(255, 255, 255, 0.5);
+            touch-action: manipulation;
+            user-select: none;
         }
 
         .project-nav-item.active {
             border-left-color: var(--accent);
-            background: rgba(245, 245, 245, 1.0); /* Semi-transparent active state */
+            background: rgba(245, 245, 245, 1.0);
         }
 
         .project-nav-item:hover {
-            background: rgba(245, 245, 245, 0.8); /* Semi-transparent hover */
+            background: rgba(245, 245, 245, 0.8);
         }
 
         .project-nav-title {
             font-weight: 600;
             font-size: 1.1rem;
             margin-bottom: 4px;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .project-nav-year {
@@ -149,9 +313,21 @@
         }
 
         .scroll-content {
-            /* margin-left: 300px; */
             flex: 1;
+            width: 100%;
         }
+
+        /* @media (min-width: 1024px) {
+            .scroll-content {
+                margin-left: 300px;
+            }
+        } */
+
+        /* @media (max-width: 1024px) and (min-width: 769px) {
+            .scroll-content {
+                margin-left: 250px;
+            }
+        } */
 
         .scroll-section {
             min-height: 100vh;
@@ -159,11 +335,24 @@
             align-items: center;
             position: relative;
             overflow: hidden;
-            padding: var(--spacing-xl) 0;
-            padding-left: 250px;
+            padding: var(--spacing-xl) var(--spacing-md);
+            width: 100%;
         }
 
-        /* FIXED: Section background to fit screen properly */
+        @media (min-width: 1024px) {
+            .scroll-section {
+                padding-left: 250px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .scroll-section {
+                min-height: 90vh;
+                padding: var(--spacing-lg) var(--spacing-sm);
+            }
+        }
+
+        /* Section Background */
         .section-bg {
             position: absolute;
             top: 0;
@@ -181,7 +370,6 @@
             opacity: 1;
         }
 
-        /* FIXED: Video elements to fit properly */
         .section-bg video {
             width: 100%;
             height: 100%;
@@ -200,16 +388,35 @@
             background: rgba(0, 0, 0, 0.5);
         }
 
+        /* Section Content - Mobile Optimized */
         .section-content {
             position: relative;
             z-index: 1;
             color: var(--white);
             max-width: 600px;
-            padding: var(--spacing-lg);
-            background: rgba(10, 10, 10, 0.8);
+            padding: var(--spacing-md);
+            background: rgba(10, 10, 10, 0.85);
             border-radius: var(--border-radius);
             backdrop-filter: blur(10px);
-            margin-left: var(--spacing-xl);
+            -webkit-backdrop-filter: blur(10px);
+            width: calc(100% - var(--spacing-md) * 2);
+            margin: 0 auto;
+        }
+
+        @media (min-width: 1024px) {
+            .section-content {
+                margin-left: var(--spacing-xl);
+                margin-right: 0;
+                padding: var(--spacing-lg);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .section-content {
+                padding: var(--spacing-md);
+                margin: 0 auto;
+                width: calc(100% - var(--spacing-sm) * 2);
+            }
         }
 
         .section-tag {
@@ -224,16 +431,40 @@
         }
 
         .section-title {
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 800;
             margin-bottom: var(--spacing-md);
-            line-height: 1.1;
+            line-height: 1.2;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 1.75rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .section-title {
+                font-size: 1.5rem;
+            }
         }
 
         .section-description {
-            font-size: 1.1rem;
+            font-size: 1rem;
             margin-bottom: var(--spacing-md);
             color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .section-description {
+                font-size: 0.95rem;
+            }
+            .projects-list{
+                display: none;
+            }
         }
 
         .tech-stack {
@@ -249,99 +480,63 @@
             border-radius: 12px;
             font-size: 0.85rem;
             border: 1px solid rgba(255, 255, 255, 0.2);
+            white-space: nowrap;
         }
 
-        /* Projects Showcase Section */
-        .showcase-section {
-            min-height: 100vh;
-            padding: var(--spacing-xl) 0;
-            background: var(--light-gray);
-        }
-
-        .showcase-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: var(--spacing-md);
-            margin-top: var(--spacing-lg);
-        }
-
-        .showcase-item {
-            background: var(--white);
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            border: 1px solid var(--medium-gray);
-            transition: var(--transition);
-        }
-
-        .showcase-item:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-        }
-
-        .showcase-video {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            background: var(--primary-black);
-        }
-
-        .showcase-content {
-            padding: var(--spacing-md);
-        }
-
-        .showcase-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: var(--spacing-sm);
-        }
-
-        .feature-list {
-            list-style: none;
-            margin-top: var(--spacing-sm);
-        }
-
-        .feature-list li {
-            padding: var(--spacing-xs) 0;
-            position: relative;
-            padding-left: var(--spacing-md);
-        }
-
-        .feature-list li:before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: var(--accent);
-            font-weight: bold;
-        }
-
+        /* About Section - Mobile Optimized */
         .about-section {
             background: var(--white);
-            padding: var(--spacing-xl) 0;
+            padding: var(--spacing-lg) 0;
+        }
+
+        @media (min-width: 768px) {
+            .about-section {
+                padding: var(--spacing-xl) 0;
+            }
         }
 
         .about-section .section-title {
             text-align: center;
             color: var(--primary-black);
-            margin-bottom: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        @media (min-width: 768px) {
+            .about-section .section-title {
+                margin-bottom: var(--spacing-xl);
+            }
         }
 
         .about-content {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: var(--spacing-xl);
+            gap: var(--spacing-lg);
             align-items: flex-start;
+        }
+
+        @media (min-width: 768px) {
+            .about-content {
+                gap: var(--spacing-xl);
+            }
         }
 
         .profile-card {
             background: var(--white);
             border-radius: var(--border-radius);
-            padding: var(--spacing-lg);
+            padding: var(--spacing-md);
             border: 1px solid var(--medium-gray);
             text-align: center;
-            width: 300px;
-            max-width: 100%;
+            width: 100%;
+            max-width: 300px;
             transition: var(--transition);
+            margin: 0 auto;
+        }
+
+        @media (min-width: 768px) {
+            .profile-card {
+                padding: var(--spacing-lg);
+            }
         }
 
         .profile-card:hover {
@@ -350,12 +545,19 @@
         }
 
         .profile-image {
-            width: 200px;
-            height: 200px;
+            width: 150px;
+            height: 150px;
             border-radius: 50%;
             overflow: hidden;
             margin: 0 auto var(--spacing-md);
             border: 4px solid var(--light-gray);
+        }
+
+        @media (min-width: 768px) {
+            .profile-image {
+                width: 200px;
+                height: 200px;
+            }
         }
 
         .profile-image img {
@@ -365,65 +567,55 @@
         }
 
         .profile-name {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             font-weight: 700;
             margin-bottom: var(--spacing-xs);
+        }
+
+        @media (min-width: 768px) {
+            .profile-name {
+                font-size: 1.5rem;
+            }
         }
 
         .profile-role {
             color: var(--accent);
             font-weight: 600;
             margin-bottom: var(--spacing-sm);
+            font-size: 0.95rem;
         }
 
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: var(--spacing-md);
+        @media (min-width: 768px) {
+            .profile-role {
+                font-size: 1rem;
+            }
         }
 
-        .skill-category h3 {
-            font-size: 1.25rem;
-            margin-bottom: var(--spacing-sm);
-            color: var(--primary-black);
-        }
-
-        .skill-item {
-            margin-bottom: var(--spacing-sm);
-        }
-
-        .skill-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 4px;
-        }
-
-        .skill-bar {
-            height: 6px;
-            background: var(--medium-gray);
-            border-radius: 3px;
-            overflow: hidden;
-        }
-
-        .skill-progress {
-            height: 100%;
-            background: var(--accent);
-            border-radius: 3px;
-            transition: width 1s ease;
-        }
-
-        /* Contact Section */
+        /* Contact Section - Mobile Optimized */
         .contact-section {
-            padding: var(--spacing-xl) 0;
+            padding: var(--spacing-lg) 0;
             background: var(--light-gray);
             text-align: center;
+        }
+
+        @media (min-width: 768px) {
+            .contact-section {
+                padding: var(--spacing-xl) 0;
+            }
         }
 
         .contact-links {
             display: flex;
             justify-content: center;
-            gap: var(--spacing-md);
+            gap: var(--spacing-sm);
             margin-top: var(--spacing-lg);
+            flex-wrap: wrap;
+        }
+
+        @media (min-width: 768px) {
+            .contact-links {
+                gap: var(--spacing-md);
+            }
         }
 
         .contact-link {
@@ -438,6 +630,9 @@
             font-weight: 500;
             transition: var(--transition);
             border: 1px solid var(--medium-gray);
+            min-width: 140px;
+            justify-content: center;
+            touch-action: manipulation;
         }
 
         .contact-link:hover {
@@ -446,71 +641,84 @@
             transform: translateY(-2px);
         }
 
-        /* Responsive Design */
-        @media (max-width: 1024px) {
-            .projects-list {
-                width: 250px;
+        /* Footer */
+        .footer {
+            padding: var(--spacing-md) 0;
+            text-align: center;
+            background: var(--primary-black);
+            color: var(--white);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Utility Classes */
+        .text-center {
+            text-align: center;
+        }
+
+        .mb-sm { margin-bottom: var(--spacing-sm); }
+        .mb-md { margin-bottom: var(--spacing-md); }
+        .mb-lg { margin-bottom: var(--spacing-lg); }
+
+        /* Touch device optimizations */
+        @media (hover: none) and (pointer: coarse) {
+            .project-nav-item:hover {
+                background: rgba(255, 255, 255, 0.5);
             }
-            .scroll-content {
-                margin-left: 250px;
+            
+            .project-nav-item.active:hover {
+                background: rgba(245, 245, 245, 1.0);
+            }
+            
+            .contact-link:hover {
+                transform: none;
+                background: var(--white);
+                color: var(--primary-black);
+            }
+            
+            .contact-link:active {
+                background: var(--accent);
+                color: var(--white);
+                transform: translateY(-2px);
             }
         }
 
+        /* Prevent zoom on input for mobile */
         @media (max-width: 768px) {
-            .hero-scroll-section {
-                flex-direction: column;
-            }
-            
-            .projects-list {
-                position: static;
-                width: 100%;
-                height: auto;
-                max-height: 200px;
-            }
-            
-            .scroll-content {
-                margin-left: 0;
-            }
-            
-            .about-content {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .showcase-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .section-content {
-                margin-left: 0;
-                margin: 0 var(--spacing-md);
+            input, select, textarea {
+                font-size: 16px !important;
             }
         }
 
-        /* Scroll animations */
-        .scroll-animate {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .projects-list::-webkit-scrollbar {
+            display: none;
         }
 
-        .scroll-animate.visible {
-            opacity: 1;
-            transform: translateY(0);
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .projects-list {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
         }
 
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
+        /* Custom scrollbar for desktop */
+        @media (min-width: 769px) {
+            ::-webkit-scrollbar {
+                width: 8px;
+            }
 
-        ::-webkit-scrollbar-track {
-            background: var(--light-gray);
-        }
+            ::-webkit-scrollbar-track {
+                background: var(--light-gray);
+            }
 
-        ::-webkit-scrollbar-thumb {
-            background: var(--accent);
-            border-radius: 4px;
+            ::-webkit-scrollbar-thumb {
+                background: var(--accent);
+                border-radius: 4px;
+            }
+
+            ::-webkit-scrollbar-thumb:hover {
+                background: var(--accent-hover);
+            }
         }
     </style>
 </head>
@@ -520,9 +728,15 @@
         <div class="container">
             <div class="navbar-content">
                 <a href="#" class="navbar-logo">
-                    <img src="image/Logo.png" alt="Glitch Bunny" style="height: 32px;">
+                    <img src="image/Logo.png" alt="Glitch Bunny">
                     <span>GLITCH BUNNY</span>
                 </a>
+                
+                <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
                 
                 <ul class="navbar-menu">
                     <li><a href="#about" class="navbar-link">About</a></li>
@@ -643,7 +857,7 @@
                     </p>
                 </div>
             </section>
-            <!-- Project 4: WhiteFox Saturn -->
+            <!-- Project 5: WhiteFox Saturn -->
             <section class="scroll-section" id="section-5">
                 <div class="section-bg">
                     <video autoplay muted loop playsinline>
@@ -681,10 +895,10 @@
                         Co-founder of Glitch Bunny.
                     </p>
                     <div class="contact-links" style="justify-content: center; margin-top: var(--spacing-md);">
-                        <a href="https://shinsekaiplusplus.itch.io" class="contact-link" style="padding: 8px 16px;">
+                        <a href="https://shinsekaiplusplus.itch.io" class="contact-link" style="padding: 8px 16px;" aria-label="Itch.io">
                             <i class="fab fa-itch-io"></i>
                         </a>
-                        <a href="https://github.com/ShinsekaiPlusPlus" class="contact-link" style="padding: 8px 16px;">
+                        <a href="https://github.com/ShinsekaiPlusPlus" class="contact-link" style="padding: 8px 16px;" aria-label="GitHub">
                             <i class="fab fa-github"></i>
                         </a>
                     </div>
@@ -700,10 +914,10 @@
                         Co-founder of Glitch Bunny.
                     </p>
                     <div class="contact-links" style="justify-content: center; margin-top: var(--spacing-md);">
-                        <a href="https://pearly4.itch.io" class="contact-link" style="padding: 8px 16px;">
+                        <a href="https://pearly4.itch.io" class="contact-link" style="padding: 8px 16px;" aria-label="Itch.io">
                             <i class="fab fa-itch-io"></i>
                         </a>
-                        <a href="https://sketchfab.com/operalix4" class="contact-link" style="padding: 8px 16px;">
+                        <a href="https://sketchfab.com/operalix4" class="contact-link" style="padding: 8px 16px;" aria-label="Sketchfab">
                             <i class="fab fa-sketch"></i>
                         </a>
                     </div>
@@ -716,7 +930,7 @@
     <section id="contact" class="contact-section">
         <div class="container">
             <h2 class="section-title">Contact Us</h2>
-            <p class="section-subtitle">Looking for collaborations or just want to chat about game development?</p>
+            <p class="section-description mb-lg">Looking for collaborations or just want to chat about game development?</p>
             
             <div class="contact-links">
                 <a href="https://shinsekaiplusplus.itch.io" class="contact-link">
@@ -731,13 +945,64 @@
         </div>
     </section>
 
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2024 Glitch Bunny. All rights reserved.</p>
+        </div>
+    </footer>
+
     <script>
+        // Mobile Menu Toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navbarMenu = document.querySelector('.navbar-menu');
+        
+        if (menuToggle && navbarMenu) {
+            menuToggle.addEventListener('click', () => {
+                menuToggle.classList.toggle('active');
+                navbarMenu.classList.toggle('active');
+                menuToggle.setAttribute('aria-expanded', navbarMenu.classList.contains('active'));
+            });
+            
+            // Close menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!navbarMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+                    menuToggle.classList.remove('active');
+                    navbarMenu.classList.remove('active');
+                    menuToggle.setAttribute('aria-expanded', 'false');
+                }
+            });
+            
+            // Close menu when clicking a link
+            navbarMenu.querySelectorAll('.navbar-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    menuToggle.classList.remove('active');
+                    navbarMenu.classList.remove('active');
+                    menuToggle.setAttribute('aria-expanded', 'false');
+                });
+            });
+        }
+
         // Scroll-based section switching
         const sections = document.querySelectorAll('.scroll-section');
         const navItems = document.querySelectorAll('.project-nav-item');
         const backgrounds = document.querySelectorAll('.section-bg');
         let currentSection = 0;
         let isScrolling = false;
+
+        // Throttle function for scroll events
+        function throttle(func, limit) {
+            let inThrottle;
+            return function() {
+                const args = arguments;
+                const context = this;
+                if (!inThrottle) {
+                    func.apply(context, args);
+                    inThrottle = true;
+                    setTimeout(() => inThrottle = false, limit);
+                }
+            }
+        }
 
         // Intersection Observer for section detection
         const observer = new IntersectionObserver((entries) => {
@@ -753,8 +1018,8 @@
                 }
             });
         }, {
-            threshold: 0.5,
-            rootMargin: '-50px 0px -50px 0px'
+            threshold: 0.3,
+            rootMargin: window.innerWidth <= 768 ? '-100px 0px -100px 0px' : '-50px 0px -50px 0px'
         });
 
         sections.forEach(section => observer.observe(section));
@@ -774,11 +1039,21 @@
             currentSection = index;
         }
 
-        // Nav item click handler
+        // Nav item click handler with touch support
         navItems.forEach((item, index) => {
             item.addEventListener('click', () => {
                 isScrolling = true;
-                sections[index].scrollIntoView({ behavior: 'smooth' });
+                
+                // Smooth scroll for mobile
+                if (window.innerWidth <= 768) {
+                    const sectionTop = sections[index].offsetTop - 60; // Account for navbar
+                    window.scrollTo({
+                        top: sectionTop,
+                        behavior: 'smooth'
+                    });
+                } else {
+                    sections[index].scrollIntoView({ behavior: 'smooth' });
+                }
                 
                 setTimeout(() => {
                     isScrolling = false;
@@ -786,14 +1061,45 @@
             });
         });
 
+        // Touch swipe support for mobile project navigation
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        const projectsList = document.querySelector('.projects-list');
+        if (projectsList && window.innerWidth <= 768) {
+            projectsList.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+            
+            projectsList.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            }, { passive: true });
+        }
+        
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = touchStartX - touchEndX;
+            
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0 && currentSection < sections.length - 1) {
+                    // Swipe left - next section
+                    navItems[currentSection + 1].click();
+                } else if (diff < 0 && currentSection > 0) {
+                    // Swipe right - previous section
+                    navItems[currentSection - 1].click();
+                }
+            }
+        }
+
         // Keyboard navigation
         document.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowDown' && currentSection < sections.length - 1) {
                 e.preventDefault();
-                sections[currentSection + 1].scrollIntoView({ behavior: 'smooth' });
+                navItems[currentSection + 1].click();
             } else if (e.key === 'ArrowUp' && currentSection > 0) {
                 e.preventDefault();
-                sections[currentSection - 1].scrollIntoView({ behavior: 'smooth' });
+                navItems[currentSection - 1].click();
             }
         });
 
@@ -806,9 +1112,18 @@
                 
                 const targetElement = document.querySelector(targetId);
                 if (targetElement) {
-                    targetElement.scrollIntoView({
+                    const offsetTop = targetElement.offsetTop - 60;
+                    window.scrollTo({
+                        top: offsetTop,
                         behavior: 'smooth'
                     });
+                    
+                    // Close mobile menu if open
+                    if (menuToggle && navbarMenu) {
+                        menuToggle.classList.remove('active');
+                        navbarMenu.classList.remove('active');
+                        menuToggle.setAttribute('aria-expanded', 'false');
+                    }
                 }
             });
         });
@@ -830,6 +1145,38 @@
         }, { threshold: 0.3 });
 
         document.querySelectorAll('.skills-grid').forEach(el => skillObserver.observe(el));
+
+        // Handle window resize
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                // Recalculate active section on resize
+                const scrollPosition = window.scrollY + 100;
+                let activeIndex = 0;
+                
+                sections.forEach((section, index) => {
+                    const sectionTop = section.offsetTop;
+                    const sectionBottom = sectionTop + section.offsetHeight;
+                    
+                    if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+                        activeIndex = index;
+                    }
+                });
+                
+                setActiveSection(activeIndex);
+            }, 250);
+        });
+
+        // Prevent video autoplay issues on mobile
+        document.addEventListener('DOMContentLoaded', () => {
+            const videos = document.querySelectorAll('video');
+            videos.forEach(video => {
+                video.setAttribute('playsinline', '');
+                video.setAttribute('webkit-playsinline', '');
+                video.setAttribute('muted', '');
+            });
+        });
     </script>
 </body>
 </html>
